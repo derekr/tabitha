@@ -18,6 +18,7 @@ var Tab = require('./lib/parse-tab')
 var mapUser = require('./lib/map-user')
 var times = require('lodash.times')
 var random = require('lodash.random')
+var leaderBoard = require('./lib/leader-board-queue')()
 
 var routes = require('./routes/index')
 // var users = require('./routes/users')
@@ -183,6 +184,11 @@ app.post('/api/tab', cors(), function (req, res) {
   Tab().save({
     parent: user
   }).then(function () {
+    leaderBoard.write({
+      username: req.user.username,
+      avatar: req.user.avatars.lrg
+    })
+
     res.json({
       head: {
         status: 200
