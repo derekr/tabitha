@@ -134,7 +134,8 @@ passport.serializeUser(function (user, done) {
 })
 
 passport.deserializeUser(function (obj, done) {
-  done(null, mapUser(obj))
+  obj = obj ? mapUser(obj) : obj
+  done(null, obj)
 })
 
 app.get('/auth/twitter', function (req, res, next) {

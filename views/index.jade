@@ -1,7 +1,10 @@
 extends layout
 
 block content
-  h1= user.username
-  img(src=user.avatars.lrg)
-  p
-    a(href='/auth/twitter') Sign in With Twitter
+  if user
+    h1= user.username
+    img(src=user.avatars.lrg)
+
+  if !user
+    p
+      a(href='/auth/twitter') Sign in With Twitter
