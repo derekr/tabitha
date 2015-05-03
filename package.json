@@ -41,7 +41,7 @@
     "start": "node ./bin/www",
     "test": "standard app.js",
     "postinstall": "npm run build",
-    "build": "mkdir -p public/build/{js,css} && npm run bundle",
+    "build": "mkdir -p public/build/js && mkdir -p public/build/css && npm run bundle",
     "bundle": "browserify client/main.js > public/build/js/bundle.js"
   }
 }
