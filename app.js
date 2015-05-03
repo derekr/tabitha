@@ -164,35 +164,35 @@ app.get('/logout', function (req, res) {
 
 app.options('/api/tab', cors())
 app.post('/api/tab', cors(), function (req, res) {
-    if (!req.user) {
-        res.status(401)
-        res.json({
-            head: {
-                code: 401
-            },
-            response: {
-                error: 'Unauthorized'
-            }
-        })
-
-        return
-    }
-
-    var user = new Parse.User()
-    user.id = req.user.id
-    Tab().save({
-        parent: user
-    }).then(function () {
-        res.json({
-            head: {
-                status: 200
-            },
-            response: {
-                yours: req.body,
-                user: req.user
-            }
-        })
+  if (!req.user) {
+    res.status(401)
+    res.json({
+      head: {
+        code: 401
+      },
+      response: {
+        error: 'Unauthorized'
+      }
     })
+
+    return
+  }
+
+  var user = new Parse.User()
+  user.id = req.user.id
+  Tab().save({
+    parent: user
+  }).then(function () {
+    res.json({
+      head: {
+        status: 200
+      },
+      response: {
+        yours: req.body,
+        user: req.user
+      }
+    })
+  })
 })
 
 // catch 404 and forward to error handler
