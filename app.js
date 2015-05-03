@@ -8,11 +8,13 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var passport = require('passport')
 var TwitterStrategy = require('passport-twitter')
+var cors = require('cors')
 
 var Parse = require('./lib/parse')()
 var tokenRequest = require('./lib/parse-token-request')
 var tokenStorage = require('./lib/parse-token-storage')
 var user = require('./lib/parse-user')()
+var Tab = require('./lib/parse-tab')
 var mapUser = require('./lib/map-user')
 var times = require('lodash.times')
 var random = require('lodash.random')
@@ -148,8 +150,6 @@ app.get('/auth/twitter', function (req, res, next) {
   })
 })
 
-// app.get('/auth/twitter', passport.authenticate('twitter'))
-
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/' }),
   function (req, res) {
@@ -160,6 +160,39 @@ app.get('/auth/twitter/callback',
 app.get('/logout', function (req, res) {
   req.logout()
   res.redirect('/')
+})
+
+app.options('/api/tab', cors())
+app.post('/api/tab', cors(), function (req, res) {
+    if (!req.user) {
+        res.status(401)
+        res.json({
+            head: {
+                code: 401
+            },
+            response: {
+                error: 'Unauthorized'
+            }
+        })
+
+        return
+    }
+
+    var user = new Parse.User()
+    user.id = req.user.id
+    Tab().save({
+        parent: user
+    }).then(function () {
+        res.json({
+            head: {
+                status: 200
+            },
+            response: {
+                yours: req.body,
+                user: req.user
+            }
+        })
+    })
 })
 
 // catch 404 and forward to error handler
