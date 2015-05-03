@@ -20,3 +20,17 @@ query.count().then(function (count) {
 }, function (err) {
     console.error(err)
 })
+
+// Leader board
+var LeaderBoard = Parse.Collection.extend({
+    model: Parse.User,
+    query: (
+        new Parse.Query('Tab')
+    )
+})
+var board = new LeaderBoard()
+
+_query.greaterThanOrEqualTo('createdAt', date.toDate())
+query.count().then(function (count) {
+
+})
