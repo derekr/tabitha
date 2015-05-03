@@ -13,6 +13,7 @@ var Parse = require('./lib/parse')()
 var tokenRequest = require('./lib/parse-token-request')
 var tokenStorage = require('./lib/parse-token-storage')
 var user = require('./lib/parse-user')()
+var mapUser = require('./lib/map-user')
 var times = require('lodash.times')
 var random = require('lodash.random')
 
@@ -78,7 +79,8 @@ function newTwitterUser (token, profile) {
 
   return user.signUp({
     username: username,
-    password: password.toString()
+    password: password.toString(),
+    avatar: profile._json.profile_image_url
   }).then(function (user) {
     return tokenStorage({
       user: user,
@@ -101,6 +103,12 @@ passport.use(new TwitterStrategy({
 },
   function (req, token, tokenSecret, profile, done) {
     var state = req.query.state
+
+    // console.dir(profile)
+    //
+    // process.nextTick(function () { done() })
+    //
+    // if (true) return
 
     if (!(state && token)) {
       return done('Invalid auth response received')
@@ -126,7 +134,7 @@ passport.serializeUser(function (user, done) {
 })
 
 passport.deserializeUser(function (obj, done) {
-  done(null, obj)
+  done(null, mapUser(obj))
 })
 
 app.get('/auth/twitter', function (req, res, next) {
