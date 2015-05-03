@@ -201,6 +201,17 @@ app.post('/api/tab', cors(), function (req, res) {
   })
 })
 
+var moment = require('moment')
+app.options('/api/leaderboard', cors())
+app.get('/api/leaderboard', cors(), function (req, res) {
+    res.json({
+        response: {
+            ref: moment().startOf('day').format('X')
+        }
+    })
+})
+
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found')
