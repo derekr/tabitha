@@ -3,6 +3,7 @@
   "description": "Comedy Hack Day Canada project.",
   "version": "0.0.0",
   "dependencies": {
+    "atomic-queue": "^5.0.2",
     "body-parser": "^1.10.2",
     "chai": "~1.8.1",
     "client-sessions": "^0.7.0",
@@ -12,10 +13,14 @@
     "dotenv": "^1.1.0",
     "express": "^4.11.1",
     "express-session": "^1.10.1",
+    "firebase": "^2.2.4",
     "jade": "^1.9.1",
     "lodash.random": "^3.0.0",
+    "lodash.sortby": "^3.1.2",
     "lodash.times": "^3.0.1",
+    "lodash.values": "^3.0.0",
     "mocha": "~1.14.0",
+    "moment": "^2.10.2",
     "mongoose": "^3.8.22",
     "morgan": "^1.5.1",
     "parse": "^1.4.2",
@@ -34,6 +39,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "standard app.js"
+    "test": "standard app.js",
+    "postinstall": "npm run build",
+    "build": "mkdir -p public/build/{js,css} && npm run bundle",
+    "bundle": "browserify client/main.js > public/build/js/bundle.js"
   }
 }
