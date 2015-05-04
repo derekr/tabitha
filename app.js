@@ -8,17 +8,14 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var passport = require('passport')
 var TwitterStrategy = require('passport-twitter')
-var cors = require('cors')
 
 var Parse = require('./lib/parse')()
 var tokenRequest = require('./lib/parse-token-request')
 var tokenStorage = require('./lib/parse-token-storage')
 var user = require('./lib/parse-user')()
-var Tab = require('./lib/parse-tab')
 var mapUser = require('./lib/map-user')
 var times = require('lodash.times')
 var random = require('lodash.random')
-var leaderBoard = require('./lib/leader-board-queue')()
 
 var routes = require('./routes/index')
 // var users = require('./routes/users')
@@ -163,53 +160,7 @@ app.get('/logout', function (req, res) {
   res.redirect('/')
 })
 
-app.options('/api/tab', cors())
-app.post('/api/tab', cors(), function (req, res) {
-  if (!req.user) {
-    res.status(401)
-    res.json({
-      head: {
-        code: 401
-      },
-      response: {
-        error: 'Unauthorized'
-      }
-    })
-
-    return
-  }
-
-  var user = new Parse.User()
-  user.id = req.user.id
-  Tab().save({
-    parent: user
-  }).then(function () {
-    leaderBoard.write({
-      username: req.user.username,
-      avatar: req.user.avatars.lrg
-    })
-
-    res.json({
-      head: {
-        status: 200
-      },
-      response: {
-        yours: req.body,
-        user: req.user
-      }
-    })
-  })
-})
-
-var moment = require('moment')
-app.options('/api/leaderboard', cors())
-app.get('/api/leaderboard', cors(), function (req, res) {
-  res.json({
-    response: {
-      ref: moment().startOf('day').format('X')
-    }
-  })
-})
+app.use('/api', require('./routes/api'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
