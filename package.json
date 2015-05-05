@@ -33,6 +33,7 @@
     "passport-twitter": "^1.0.3",
     "react": "^0.12.2",
     "react-magic-move": "^0.1.0",
+    "reactify": "^1.1.0",
     "serve-favicon": "^2.2.0",
     "should": "~2.1.0",
     "standard": "^3.7.2"
