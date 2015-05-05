@@ -3,7 +3,7 @@ extends layout
 block content
   div#app-container
     if !user
-      a.signin-btn(href='/auth/twitter') Login to Twitter to Begin Tabulation
+      a.signin-btn(href='/auth/twitter', target='parent') Login to Twitter to Begin Tabulation
 
     div#top
     div#lists
