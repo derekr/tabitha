@@ -94,4 +94,36 @@ router.get('/leaderboard', cors(), function (req, res) {
   })
 })
 
+// url
+router.options('/url', cors())
+router.post('/url', cors(), function (req, res) {
+  if (!req.user) {
+    res.status(401)
+    res.json({
+      head: {
+        code: 401
+      },
+      response: {
+        error: 'Unauthorized'
+      }
+    })
+
+    return
+  }
+
+  leaderBoard.write({
+    url: req.body.url
+  })
+
+  res.json({
+    head: {
+      status: 200
+    },
+    response: {
+      yours: req.body.url,
+      user: req.user
+    }
+  })
+})
+
 module.exports = router

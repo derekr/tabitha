@@ -1,6 +1,6 @@
-- top tabbers
-  - top 3
-  - everyone else
+x top tabbers
+  x top 3
+  x everyone else
 
 - top sites
   - start logging domains
