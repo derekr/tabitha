@@ -29,7 +29,7 @@ limitView.on('value', function (snap) {
 })
 
 var sites = myRootRef.child('sites')
-var limitSites = sites.limitToFirst(20)
+var limitSites = sites.limitToLast(20)
 
 limitSites.on('value', function (snap) {
   var scores = sortby(values(snap.val()), 'count').reverse()
