@@ -10,6 +10,7 @@ var OrderedList = React.createClass({
 
   renderRow: function (row, i) {
     var offset = this.props.offset + i
+
     return (
       <div key={ row.user.username } className='ordered-list-item'>
         <span className='row-counter'>{ offset }</span>

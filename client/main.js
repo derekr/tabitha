@@ -31,8 +31,18 @@ limitView.on('value', function (snap) {
 var sites = myRootRef.child('sites')
 var limitSites = sites.limitToLast(20)
 
+var blacklist = [
+  'www.pornhub.com',
+  'localhost',
+  'comedyhackday.slack.com'
+]
+
 limitSites.on('value', function (snap) {
   var scores = sortby(values(snap.val()), 'count').reverse()
+  scores = scores.filter(function (s) {
+    return (blacklist.indexOf(s.url) === -1)
+  })
+
   scores = scores.map(function (s) {
     return {
       text: s.url,
