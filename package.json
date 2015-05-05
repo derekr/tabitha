@@ -48,7 +48,7 @@
     "test": "standard app.js",
     "postinstall": "npm run build",
     "build": "mkdir -p public/build/js && mkdir -p public/build/css && npm run bundle && npm run less",
-    "bundle": "browserify -g reactify client/main.js > public/build/js/bundle.js",
+    "bundle": "browserify -g [ reactify --es6 ] client/main.js > public/build/js/bundle.js",
     "watchify": "node node_modules/watchify/bin/cmd.js -g [ reactify --es6 ] client/main.js -o public/build/js/bundle.js -dv",
     "less": "node_modules/.bin/lessc client/styles.less > public/build/css/bundle.css"
   }
