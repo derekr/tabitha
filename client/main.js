@@ -1,49 +1,27 @@
+var React = require('react')
 var Firebase = require('firebase')
-var myRootRef = new Firebase('https://intense-inferno-9986.firebaseio.com')
 var moment = require('moment')
 var values = require('lodash.values')
 var sortby = require('lodash.sortby')
+var random = require('lodash.random')
 var nets = require('nets')
 
-function onValue (target) {
-    return function (snapshot) {
-        var scores = values(snapshot.val())
-        scores = sortby(scores, 'tabs').reverse()
-        target.innerHTML = scores.map(function (s) {
-            return s.user.username + ': ' + s.tabs
-        }).join('<br />')
-    }
-}
+var OrderedList = require('./components/ordered-list.jsx')
+var InlineOrderedList = require('./components/inline-ordered-list.jsx')
 
-var current = document.getElementById('current')
-var currRef = myRootRef.child('current')
-var currView = currRef
-currView.on('value', onValue(current), function (err) {
-    console.error(err)
-})
+var $othertop = document.getElementById('othertop')
+var $top = document.getElementById('top')
 
-var today = document.getElementById('today')
+var myRootRef = new Firebase('https://intense-inferno-9986.firebaseio.com')
 
-nets({
-    url: '//' + window.location.host + '/api/leaderboard',
-    method: 'GET',
-    encoding: 'json'
-}, function (err, res) {
-    if (err) return console.error(err)
+var current = myRootRef.child('current')
+var limitView = current.limitToFirst(20)
 
-    var _ref = JSON.parse(res.body).response.ref
-    var ref = myRootRef.child(_ref)
-    // var view = ref.limitToLast(1)
-    var view = ref
+limitView.on('value', function (snap) {
+  var scores = sortby(values(snap.val()), 'tabs').reverse()
+  var top = scores.slice(0,3)
+  var others = scores.slice(3)
 
-    view.on('value', onValue(today), function (err) {
-        console.error(err)
-    })
-})
-
-var alltime = document.getElementById('alltime')
-var alltimeRef = myRootRef.child('alltime')
-var alltimeView = alltimeRef
-alltimeView.on('value', onValue(alltime), function (err) {
-    console.error(err)
+  React.render(<InlineOrderedList offset={ 1 } scores={ top } />, $top)
+  React.render(<OrderedList offset={ 4 } scores={ others } />, $othertop)
 })
