@@ -56,10 +56,18 @@ body {
 }
 
 .row-avatar {
-    width: 95px;
+    width: 35px;
     display: inline-block;
     float: left;
     margin-right: 10px
+}
+
+.inline-ordered-list-item .row-avatar {
+  width: 95px;
+}
+
+.ordered-list-item {
+  overflow: auto;
 }
 
 img {
@@ -69,6 +77,12 @@ img {
 .row-avatar img {
     max-width: 100%;
     display: inline-block;
+}
+
+.row-name,
+.row-count {
+  display: inline-block;
+  padding-top: 5px;
 }
 
 .row-name a {
@@ -105,4 +119,8 @@ img {
   margin-bottom: 20px;
   color: #efefef;
   text-decoration: none;
+}
+
+#sites .ordered-list-item {
+  margin-bottom: 5px;
 }

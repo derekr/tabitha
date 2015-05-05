@@ -13,6 +13,9 @@ var OrderedList = React.createClass({
     return (
       <div key={ row.user.username } className='ordered-list-item'>
         <span className='row-counter'>{ offset }</span>
+        <span className='row-avatar'>
+          <img src={ row.user.avatar } />
+        </span>
         <span className='row-name'>
           <a href={ 'http://twitter.com/' + row.user.username }>
             @{ row.user.username }
